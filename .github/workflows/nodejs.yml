@@ -39,5 +39,5 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USER }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        repository: testbefund/id-issuer
+        repository: testbefund/frontend-id
         tag: ${{env.BRANCH_NAME}}
