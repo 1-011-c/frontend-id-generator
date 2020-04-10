@@ -3,8 +3,9 @@ import Button from "@material-ui/core/Button";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
+import CardHeader from "@material-ui/core/CardHeader";
+import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
-import {TextField} from "@material-ui/core";
 import {TestbefundApi} from "../data/TestbefundApi";
 import {NotificationManager} from "react-notifications";
 
@@ -64,17 +65,24 @@ export class TestbefundLogin extends React.Component<Props, State> {
     };
 
     render() {
-        return   <Card>
-                <CardMedia
-                    image="/img/undraw_authentication_fsn5.svg"
-                    component="img"
-                    alt="Login"
-                    height="250"
-                    title="Login"
-                />
+        return <Card>
+            <CardHeader title={" Testbefund GENERATOR Login"}
+                        subheader={<div>Mehr Informationen zu Testbefund gibt es <a href="https://testbefund.nusselt.de/" rel="noopener noreferrer" target="_blank">hier</a></div>}>
+            </CardHeader>
+            <CardMedia
+                image="/img/undraw_authentication_fsn5.svg"
+                component="img"
+                alt="Login"
+                height="250"
+                title="Login"
+            />
             <CardContent style={{"display": "flex", "flexDirection": "column"}}>
-                <TextField label="Nutzername" value={this.state.username} onChange={this.handleUserNameChange} />
-                <TextField label="Passwort" value={this.state.password} onChange={this.handlePasswordChange} type="password" />
+                <TextField label="Nutzername" value={this.state.username} onChange={this.handleUserNameChange}/>
+                <TextField label="Passwort" value={this.state.password} onChange={this.handlePasswordChange}
+                           type="password"/>
+                <div>
+
+                </div>
             </CardContent>
             <CardActions>
                 <Button size="small" color="primary" onClick={this.handleLogin}>

@@ -1,6 +1,8 @@
-import {FormControl, MenuItem, TextField} from "@material-ui/core";
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import DeleteIcon from '@material-ui/icons/Delete';
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";

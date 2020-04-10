@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import {Button, Container, TextField} from "@material-ui/core";
 import TestCaseTemplate, {TestCaseTemplateData} from "./modules/TestCaseTemplate";
 import {immutableDelete, immutableReplace} from "./util";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,6 +10,11 @@ import {CreatedTestCase} from "./modules/CreatedTestCase";
 import {TestbefundInfo} from "./modules/TestbefundInfo";
 import {TestbefundLogin} from "./modules/TestbefundLogin";
 import {NotificationContainer} from "react-notifications";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
 
 
 interface AppState {
@@ -98,7 +102,7 @@ class App extends React.Component<{}, AppState> {
             return <TextField
                 fullWidth={true}
                 id="filled-multiline-flexible"
-                label="Multiline"
+                label="Test-Template"
                 multiline
                 onChange={event => this.handleTemplateDataChange(event.target.value)}
                 value={jsonString}
@@ -110,7 +114,9 @@ class App extends React.Component<{}, AppState> {
     };
 
     Login = () => {
-        return <TestbefundLogin authSuccessful={this.handleAuthSuccessful}/>
+        return <div style={{'marginTop': "32px"}}>
+            <TestbefundLogin authSuccessful={this.handleAuthSuccessful}/>
+        </div>
     };
 
     TestbefundApp = () => {
@@ -136,10 +142,17 @@ class App extends React.Component<{}, AppState> {
     }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-        return <Container maxWidth="md">
-            {!this.state.username ? <this.Login/> : <this.TestbefundApp/>}
-            <NotificationContainer/>
-        </Container>
+        return <div>
+            <AppBar position="static">
+                <Toolbar id="app-bar">
+                    <img style={{'height': '64px'}} src="/img/testbefund_logo.png" alt="Testbefund Logo"/>
+                </Toolbar>
+            </AppBar>
+            <Container maxWidth="md">
+                {!this.state.username ? <this.Login/> : <this.TestbefundApp/>}
+                <NotificationContainer/>
+            </Container>
+        </div>
     }
 
 }

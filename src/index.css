@@ -16,3 +16,8 @@ code {
   margin-left: 8px;
   margin-right: 8px;
 }
+
+#app-bar {
+  display: flex;
+  flex-direction: column;
+}
