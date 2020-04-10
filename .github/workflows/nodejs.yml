@@ -6,9 +6,6 @@ name: Node.js CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,10 +18,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build
-      env:
-        CI: true
+    - name: Install
+      uses: CultureHQ/actions-yarn@master
+      with:
+        args: install
+    - name: Build
+      uses: CultureHQ/actions-yarn@master
+      with:
+        args: build
     - name: Build & Push to Github Packages
       uses: zenato/docker-action@v1.0.0
       with:
