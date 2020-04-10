@@ -6,8 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Card from "@material-ui/core/Card";
 import {TextField} from "@material-ui/core";
 import {TestbefundApi} from "../data/TestbefundApi";
-
-const Notifications = require('react-notifications');
+import {NotificationManager} from "react-notifications";
 
 
 interface State {
@@ -57,9 +56,9 @@ export class TestbefundLogin extends React.Component<Props, State> {
                 this.setLoginPending(true);
                 if (authenticated) {
                     this.props.authSuccessful(this.state.username, this.state.password);
-                    Notifications.NotificationManager.success('Login Erfolgreich')
+                    NotificationManager.success('Login Erfolgreich')
                 } else {
-                    Notifications.NotificationManager.error('Login Fehlgeschlagen')
+                    NotificationManager.error('Login Fehlgeschlagen')
                 }
             })
     };

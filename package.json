@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build-docker-image": "docker build -t testbefund-id-generator:latest .",
+    "build-docker-image": "yarn run build && docker build -t testbefund-id-generator:latest .",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

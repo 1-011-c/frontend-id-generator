@@ -10,8 +10,7 @@ import {TestbefundApi} from "./data/TestbefundApi";
 import {CreatedTestCase} from "./modules/CreatedTestCase";
 import {TestbefundInfo} from "./modules/TestbefundInfo";
 import {TestbefundLogin} from "./modules/TestbefundLogin";
-
-const NotificationContainer = require('react-notifications').NotificationContainer;
+import {NotificationContainer} from "react-notifications";
 
 
 interface AppState {
@@ -93,7 +92,7 @@ class App extends React.Component<{}, AppState> {
             .then(result => this.setState({testWrapper: result}));
     };
 
-    ResultingTemplate = () => {
+    renderResultingTemplate = () => {
         const jsonString = JSON.stringify(this.state.data, null, 2);
         if (this.state.editing) {
             return <TextField
@@ -131,7 +130,7 @@ class App extends React.Component<{}, AppState> {
                     <EditIcon/>
                 </IconButton>
             </h3>
-            <this.ResultingTemplate/>
+            {this.renderResultingTemplate()}
             <CreatedTestCase testWrapper={this.state.testWrapper}/>
         </div>
     }
