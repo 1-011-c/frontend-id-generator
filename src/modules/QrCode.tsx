@@ -5,6 +5,7 @@ import React, {RefObject} from "react";
 interface Props {
     value: string;
     title: string;
+    divId?: string;
 }
 
 interface State {
@@ -42,6 +43,6 @@ export class QrCode extends React.Component<Props, State>{
     }
 
     render() {
-        return <div ref={this.ref}/>
+        return <div id={this.props.divId} ref={this.ref}/>
     }
 }

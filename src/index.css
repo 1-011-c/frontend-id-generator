@@ -12,9 +12,20 @@ code {
     monospace;
 }
 
-.qr-code {
+.qr-codes {
   margin-left: 8px;
   margin-right: 8px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+#lab-qr-code {
+  margin-left: 16px;
+}
+
+#patient-qr-code {
+  margin-right: 16px;
 }
 
 #app-bar {

@@ -21,11 +21,11 @@ export interface TestbefundApiCreateTestRequest {
 export interface TestbefundApiTestWrapper {
     date: string;
     readId: string;
+    writeId: string;
     testCases: TestbefundApiTestCase[]
 }
 
 export interface TestbefundApiTestCase {
-    writeId: string;
     title: string;
     icdCode: string;
 }

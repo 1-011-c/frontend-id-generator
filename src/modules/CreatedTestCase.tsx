@@ -1,5 +1,5 @@
 import React from "react";
-import {TestbefundApiTestCase, TestbefundApiTestWrapper} from "../data/ApiModel";
+import {TestbefundApiTestWrapper} from "../data/ApiModel";
 import {QrCode} from "./QrCode";
 import {TestbefundConfig} from "../Config";
 
@@ -10,23 +10,19 @@ interface CreatedTestCaseProps {
 
 export class CreatedTestCase extends React.Component<CreatedTestCaseProps, {}> {
 
-    renderQrCodes = (testCases: TestbefundApiTestCase[]) => {
-        return testCases
-            .map(value => <div key={value.writeId} className="qr-code">
-                <QrCode value={value.writeId} title={`${value.title}(${value.icdCode})`}/>
-            </div>);
-    };
-
     render() {
         if (!this.props.testWrapper) {
             return <React.Fragment/>
         } else {
             const readUrl = `${TestbefundConfig.testbefundPatientUrl}?readId=${this.props.testWrapper.readId}`;
-            return <div style={{display: "flex", flexDirection: "row"}}>
-                <div className="qr-code">
-                    <QrCode value={readUrl} title={"Patienten-Code"}/>
+            const writeId = this.props.testWrapper.writeId;
+            return <div>
+                <h4>Labor-ID: {writeId}</h4>
+                <h5>Die Labor-ID kann entweder manuell oder als QR Code gespeichert werden</h5>
+                <div className="qr-codes">
+                    <QrCode divId={'patient-qr-code'} value={readUrl} title={"Patienten-Code"}/>
+                    <QrCode divId={'lab-qr-code'} value={writeId} title={"Labor-Code"}/>
                 </div>
-                {this.renderQrCodes(this.props.testWrapper.testCases)}
             </div>
         }
 
