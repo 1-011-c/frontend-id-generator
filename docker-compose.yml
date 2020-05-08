@@ -2,5 +2,9 @@ version: '3.0'
 services:
   web:
     image: testbefund-id-generator:latest
+    environment:
+      # configure these to the testbefund backend and the web public API
+      TESTBEFUND_API_URL: 'http://localhost:8080'
+      TESTBEFUND_PATIENT_URL: 'https://web.testbefund.nt-dev.eu/#/'
     ports:
-      - 8080:80
+      - 80:80
