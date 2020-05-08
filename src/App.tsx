@@ -15,10 +15,19 @@ import Toolbar from "@material-ui/core/Toolbar";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
+
+interface TestContainerData {
+    clientId: string | null;
+    tests: TestCaseTemplateData[];
+}
 
 interface AppState {
-    data: TestCaseTemplateData[];
+    data: TestContainerData;
     editing: boolean;
     // Loaded by API
     clients: TestbefundApiOrganisation[];
@@ -33,7 +42,7 @@ class App extends React.Component<{}, AppState> {
     constructor(props: Readonly<{}>) {
         super(props);
         this.state = {
-            data: [],
+            data: {tests: [], clientId: null},
             editing: false,
             clients: [],
             username: "",
@@ -46,8 +55,9 @@ class App extends React.Component<{}, AppState> {
     }
 
     addData = () => {
+        const tests = [...this.state.data.tests, {icdCode: "", name: ""}];
         this.setState({
-            data: [...this.state.data, {client: "", icdCode: "", name: ""}]
+            data: {...this.state.data, tests}
         })
     };
 
@@ -57,13 +67,13 @@ class App extends React.Component<{}, AppState> {
 
     handleDataChange = (data: TestCaseTemplateData, index: number) => {
         this.setState({
-            data: immutableReplace(this.state.data, data, index)
+            data: {...this.state.data, tests: immutableReplace(this.state.data.tests, data, index)}
         });
     };
 
     handleDelete = (index: number) => {
         this.setState({
-            data: immutableDelete(this.state.data, index)
+            data: {...this.state.data, tests: immutableDelete(this.state.data.tests, index)}
         });
     };
 
@@ -92,9 +102,20 @@ class App extends React.Component<{}, AppState> {
 
 
     generateQrCode = () => {
-        TestbefundApi.createTest(this.state.data, this.state.username, this.state.password)
+        TestbefundApi.createTest(this.state.data.tests, this.state.data.clientId, this.state.username, this.state.password)
             .then(result => this.setState({testWrapper: result}));
     };
+
+    clientChange = (clientId: string) => {
+        this.setState({
+            data: {...this.state.data, clientId}
+        })
+    };
+
+    clientMenuItems = () => {
+        return this.state.clients.map(client =>  <MenuItem key={client.id} value={client.id}>{client.name}</MenuItem>)
+    };
+
 
     renderResultingTemplate = () => {
         const jsonString = JSON.stringify(this.state.data, null, 2);
@@ -122,7 +143,23 @@ class App extends React.Component<{}, AppState> {
     TestbefundApp = () => {
         return <div>
             <TestbefundInfo/>
-            {this.state.data.map((data, index) => <TestCaseTemplate
+            <div>
+                <FormControl fullWidth={true}>
+                    <InputLabel>Ausstellende Organisation</InputLabel>
+                    <Select
+                        style={{minWidth: '300px'}}
+                        fullWidth={true}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={this.state.data.clientId}
+                        onChange={(event) => this.clientChange(event.target.value as string)}
+                    >
+                        {this.clientMenuItems()}
+                    </Select>
+                </FormControl>
+            </div>
+
+            {this.state.data.tests.map((data, index) => <TestCaseTemplate
                 key={index}
                 data={data}
                 allClients={this.state.clients}
@@ -130,7 +167,7 @@ class App extends React.Component<{}, AppState> {
                 dataChange={data => this.handleDataChange(data, index)}/>
             )}
             <Button onClick={this.addData}>Test Hinzufügen</Button>
-            <Button onClick={this.generateQrCode}>QR Code(s) Generieren</Button>
+            <Button onClick={this.generateQrCode} disabled={this.state.data.tests.length <= 0}>QR Code(s) Generieren</Button>
             <h3>Resultierendes Test-Template
                 <IconButton onClick={() => this.toggleEditing()}>
                     <EditIcon/>

@@ -20,9 +20,10 @@ export class TestbefundApi {
         })
     }
 
-    static createTest(tests: TestCaseTemplateData[], username: string, password: string): Promise<TestbefundApiTestWrapper> {
+    static createTest(tests: TestCaseTemplateData[], clientId: string | null, username: string, password: string): Promise<TestbefundApiTestWrapper> {
         const request: TestbefundApiCreateTestRequest = {
-            testRequests: tests.map(value => ({clientId: value.client, icdCode: value.icdCode, title: value.name}))
+            testRequests: tests.map(value => ({icdCode: value.icdCode, title: value.name})),
+            clientId
         };
         return axios.post(url + "/v1/test/container", request, {
             auth: {

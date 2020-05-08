@@ -9,13 +9,13 @@ export interface TestbefundApiOrganisation {
 }
 
 export interface TestbefundApiTest {
-    clientId: string;
     icdCode: string;
     title: string;
 }
 
 export interface TestbefundApiCreateTestRequest {
     testRequests: TestbefundApiTest[]
+    clientId: string | null;
 }
 
 export interface TestbefundApiTestWrapper {
