@@ -19,6 +19,8 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import {createAndDownloadPdf} from "./service/PdfCreator";
+import {loadAppState, persistAppState} from "./service/LocalStorageSync";
 
 
 interface TestContainerData {
@@ -26,7 +28,7 @@ interface TestContainerData {
     tests: TestCaseTemplateData[];
 }
 
-interface AppState {
+export interface AppState {
     data: TestContainerData;
     editing: boolean;
     // Loaded by API
@@ -41,17 +43,15 @@ class App extends React.Component<{}, AppState> {
 
     constructor(props: Readonly<{}>) {
         super(props);
-        this.state = {
-            data: {tests: [], clientId: null},
-            editing: false,
-            clients: [],
-            username: "",
-            password: ""
-        }
+        this.state = loadAppState();
     }
 
     componentDidMount(): void {
 
+    }
+
+    componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<AppState>, snapshot?: any): void {
+        persistAppState(this.state);
     }
 
     addData = () => {
@@ -103,7 +103,12 @@ class App extends React.Component<{}, AppState> {
 
     generateQrCode = () => {
         TestbefundApi.createTest(this.state.data.tests, this.state.data.clientId, this.state.username, this.state.password)
-            .then(result => this.setState({testWrapper: result}));
+            .then(result => this.handleGenerateSuccess(result));
+    };
+
+    handleGenerateSuccess = (result: TestbefundApiTestWrapper) => {
+        this.setState({testWrapper: result});
+        createAndDownloadPdf(result);
     };
 
     clientChange = (clientId: string) => {
